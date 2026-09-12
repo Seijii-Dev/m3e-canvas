@@ -7,8 +7,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "npx serve out",
+    "build": "next build --webpack",
+    "start": "node scripts/serve.mjs",
+    "start:termux": "HOST=0.0.0.0 node scripts/serve.mjs",
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run"
   },

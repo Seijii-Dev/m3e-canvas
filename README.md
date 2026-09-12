@@ -86,6 +86,26 @@ npm run build      # static export to ./out
 
 The app is a static Next.js export. To host it under a sub-path (for example a GitHub Pages project site), set `NEXT_PUBLIC_BASE_PATH=/your-repo` at build time. `.github/workflows/deploy.yml` does this automatically and publishes `out/` to GitHub Pages on every push to `main`.
 
+### Android Termux
+
+M3E Canvas runs in any modern Android browser and can be built and served directly from [Termux](https://termux.dev/). The production build uses Next.js Webpack rather than Turbopack because Next.js does not provide native Turbopack bindings for Android ARM64. Install Node.js from the Termux package manager, then run:
+
+```bash
+pkg update
+pkg install git nodejs
+git clone https://github.com/Seijii-Dev/m3e-canvas.git
+cd m3e-canvas
+npm ci
+npm run build
+npm run start:termux
+```
+
+If you cloned the project before the Termux scripts were added, update it first with `git pull` or clone it again.
+
+Open `http://127.0.0.1:3000` in the Android browser. The Termux server listens on `0.0.0.0`, so another device on the same Wi-Fi network can use `http://<phone-ip>:3000`; find the phone's address with `ip route get 1.1.1.1`. The server is implemented with Node's built-in HTTP module, so Termux does not need to download or install a global `serve` package. Stop it with `Ctrl+C`.
+
+For development with hot reload, use `npm run dev -- --hostname 0.0.0.0` instead of the static build/start commands.
+
 ## Contributing
 
 Bug reports, part requests and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) explains the setup, the conventions (English comments, four languages for every string) and where each kind of change lives. Questions go to [Discussions](https://github.com/lnkiai/m3e-canvas/discussions).
